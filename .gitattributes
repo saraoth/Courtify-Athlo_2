@@ -1,11 +1,8 @@
 # Force GitHub's language statistics analyzer to ignore web wrapper scaffolding
 server.ts linguist-vendored
-index.html linguist-vendored
 package.json linguist-vendored
 package-lock.json linguist-vendored
-vite.config.ts linguist-vendored
 tsconfig.json linguist-vendored
-tsconfig.node.json linguist-vendored
 metadata.json linguist-vendored
 firebase-blueprint.json linguist-vendored
 firebase-applet-config.json linguist-vendored
@@ -13,8 +10,7 @@ firestore.rules linguist-vendored
 .env.example linguist-vendored
 
 # Treat the web preview source wrappers as vendored dependencies
-src/** linguist-vendored
-public/** linguist-vendored
+web/** linguist-vendored
 
 # Ensure Dart and Flutter code are recognized as the primary language in statistics
 lib/**/*.dart linguist-detectable=true

@@ -1,8 +1,51 @@
-node_modules/
+# ----------------------------------------------------
+# Standard Flutter and Dart build artifacts
+# ----------------------------------------------------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
 build/
-dist/
-coverage/
+lib/generated_plugin_registrant.dart
+
+# ----------------------------------------------------
+# Symbolication and Debug files
+# ----------------------------------------------------
+*.js_
+*.js_symbols
+*.js.map
+
+# ----------------------------------------------------
+# IDE & System Files
+# ----------------------------------------------------
 .DS_Store
+.idea/
+.vscode/
 *.log
+*.sublime-project
+*.sublime-workspace
+
+# ----------------------------------------------------
+# Firebase project keys
+# ----------------------------------------------------
 .env*
 !.env.example
+
+# ====================================================
+# EXCLUDE DEV WORKSPACE SCALPEL SCALER FILES FROM GITHUB:
+# These supporting files are mandatory only for the AI Studio
+# browser container compiler/preview environment.
+# They are ignored so the exported GitHub repo is 100% pure Dart & Flutter.
+# ====================================================
+package.json
+package-lock.json
+tsconfig.json
+server.ts
+node_modules/
+firebase-blueprint.json
+firebase-applet-config.json
+metadata.json
+firestore.rules
+dist/
