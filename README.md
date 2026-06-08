@@ -42,9 +42,8 @@ Follow the guidelines below to compile and execute the native mobile package:
    - Set up your physical mobile device or virtual emulator (Android Studio Emulator / Apple Xcode iOS Simulator).
 
 2. **Retrieve Dependencies:**
-   Navigate into the flutter directory and fetch the necessary package bindings:
+   Navigate to the root directory containing `pubspec.yaml` and fetch the necessary package bindings:
    ```bash
-   cd flutter_app
    flutter pub get
    ```
 
@@ -64,7 +63,7 @@ Follow the guidelines below to compile and execute the native mobile package:
 
 ## Codebase Directory Structure
 
-The structure under the core Dart workspace (`flutter_app/lib`) consists of clean, modular entities:
+The structure under the core Dart workspace (`lib/`) consists of clean, modular entities:
 
 - `lib/main.dart` — App bootstrap layer, theme configuration, and localized routes layout.
 - `lib/models/` — Implements profile data schemes, message payloads, and court structures.
