@@ -1,0 +1,176 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Core user information for all roles.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["player", "coach", "parent", "admin"] },
+        "avatar": { "type": "string", "format": "uri" },
+        "parentId": { "type": "string", "description": "UID of the parent user (for players)." },
+        "fcmToken": { "type": "string", "description": "Firebase Cloud Messaging token for notifications." },
+        "availability": { "type": "string", "enum": ["Mornings", "Afternoons", "Evenings", "Weekends", "Flexible"], "description": "Player's preferred playing times." },
+        "sports": { "type": "array", "items": { "type": "string" }, "description": "Sports the user is interested in." },
+        "skillLevel": { "type": "string", "enum": ["beginner", "intermediate", "advanced", "pro"], "description": "User's skill level in their primary sport." },
+        "onboardingCompleted": { "type": "boolean", "description": "Whether the user has completed the onboarding flow." },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "name", "role"]
+    },
+    "PlayerStats": {
+      "title": "Player Stats",
+      "description": "Specific stats for players.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "level": { "type": "string" },
+        "sport": { "type": "string" },
+        "stats": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number" },
+            "stamina": { "type": "number" },
+            "skill": { "type": "number" }
+          }
+        }
+      },
+      "required": ["userId", "level", "sport", "stats"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Court booking information.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "sport": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "court": { "type": "string" },
+        "price": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "sport", "date", "time", "court", "price", "status"]
+    },
+    "MatchRequest": {
+      "title": "Match Request",
+      "description": "Request to find a match.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "sport": { "type": "string" },
+        "level": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "matched", "completed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "sport", "level", "status"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Chat conversation between users.",
+      "type": "object",
+      "properties": {
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "lastMessage": { "type": "string" },
+        "lastMessageTime": { "type": "string", "format": "date-time" },
+        "typing": { "type": "object", "description": "Map of user IDs to typing status." },
+        "lastRead": { "type": "object", "description": "Map of user IDs to last read timestamp." }
+      },
+      "required": ["participants", "lastMessage", "lastMessageTime"]
+    },
+    "ChatMessage": {
+      "title": "Chat Message",
+      "description": "Individual message in a conversation.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "mediaUrl": { "type": "string", "format": "uri" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "text", "timestamp"]
+    },
+    "PerformanceData": {
+      "title": "Performance Data",
+      "description": "Raw performance metrics for AI analysis.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "score": { "type": "number" },
+        "stamina": { "type": "number" },
+        "skill": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "score", "stamina", "skill", "timestamp"]
+    },
+    "AIAnalysis": {
+      "title": "AI Analysis",
+      "description": "Results of AI performance analysis.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "sport": { "type": "string" },
+        "performanceScore": { "type": "number" },
+        "improvementRate": { "type": "number" },
+        "predictedYears": { "type": "number" },
+        "recommendations": { "type": "array", "items": { "type": "string" } },
+        "trainingFocus": { "type": "array", "items": { "type": "string" } },
+        "strengths": { "type": "array", "items": { "type": "string" } },
+        "weaknesses": { "type": "array", "items": { "type": "string" } },
+        "injuryRisk": { "type": "string" },
+        "rawReport": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "improvementRate", "predictedYears", "recommendations", "timestamp"]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User feedback for coaches or sessions.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "targetType": { "type": "string", "enum": ["coach", "session", "player"] },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "targetId", "targetType", "rating", "createdAt"]
+    },
+    "Session": {
+      "title": "Training Session",
+      "description": "Coach-led training session.",
+      "type": "object",
+      "properties": {
+        "coachId": { "type": "string" },
+        "coachName": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "sport": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "court": { "type": "string" },
+        "maxParticipants": { "type": "number" },
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["scheduled", "completed", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["coachId", "coachName", "title", "sport", "date", "time", "court", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "UserProfile", "description": "User profiles." },
+    "/players/{userId}": { "schema": "PlayerStats", "description": "Player specific stats." },
+    "/bookings/{bookingId}": { "schema": "Booking", "description": "Court bookings." },
+    "/match_requests/{requestId}": { "schema": "MatchRequest", "description": "Matchmaking requests." },
+    "/chats/{chatId}": { "schema": "Conversation", "description": "Chat conversations." },
+    "/chats/{chatId}/messages/{messageId}": { "schema": "ChatMessage", "description": "Messages in a chat." },
+    "/performance/{perfId}": { "schema": "PerformanceData", "description": "Performance metrics." },
+    "/ai_analysis/{analysisId}": { "schema": "AIAnalysis", "description": "AI analysis results." },
+    "/feedback/{feedbackId}": { "schema": "Feedback", "description": "User feedback." },
+    "/sessions/{sessionId}": { "schema": "Session", "description": "Coach training sessions." }
+  }
+}

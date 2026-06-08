@@ -1,0 +1,9 @@
+{
+  "name": "Remix: Courtify – Athlo",
+  "description": "A high-fidelity smart sports club platform for players, coaches, parents, and admins with AI-powered performance insights.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
