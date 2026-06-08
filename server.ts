@@ -104,23 +104,28 @@ async function startServer() {
 
   // Dynamic Flutter File List and Content serving API
   app.get("/api/flutter-files", (req, res) => {
-    const flutterPath = path.join(process.cwd(), "flutter_app");
     const getFiles = (dir: string, fileList: string[] = []) => {
-      if (!fs.existsSync(dir)) return fileList;
-      const files = fs.readdirSync(dir);
+      const fullPath = path.join(process.cwd(), dir);
+      if (!fs.existsSync(fullPath)) return fileList;
+      const files = fs.readdirSync(fullPath);
       files.forEach((file) => {
-        const filePath = path.join(dir, file);
+        const filePath = path.join(fullPath, file);
+        const relPath = path.join(dir, file);
         if (fs.statSync(filePath).isDirectory()) {
-          getFiles(filePath, fileList);
+          getFiles(relPath, fileList);
         } else {
-          fileList.push(path.relative(flutterPath, filePath));
+          fileList.push(relPath);
         }
       });
       return fileList;
     };
 
     try {
-      const files = getFiles(flutterPath);
+      const files: string[] = [];
+      if (fs.existsSync(path.join(process.cwd(), "pubspec.yaml"))) {
+        files.push("pubspec.yaml");
+      }
+      getFiles("lib", files);
       res.json({ files });
     } catch (err) {
       console.error("Failed to read flutter folder:", err);
@@ -134,7 +139,11 @@ async function startServer() {
 
     try {
       const safeRelative = filePathStr.replace(/\.\./g, "");
-      const safePath = path.join(process.cwd(), "flutter_app", safeRelative);
+      // Restrict file retrieval only to the Flutter scope files (lib/ and pubspec.yaml)
+      if (safeRelative !== "pubspec.yaml" && !safeRelative.startsWith("lib/")) {
+        return res.status(403).json({ error: "Access denied to requested file path context" });
+      }
+      const safePath = path.join(process.cwd(), safeRelative);
       if (fs.existsSync(safePath) && !fs.statSync(safePath).isDirectory()) {
         const content = fs.readFileSync(safePath, "utf8");
         res.json({ content });
